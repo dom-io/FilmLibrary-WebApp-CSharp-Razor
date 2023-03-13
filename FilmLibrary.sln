@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33403.182
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmLibrary.Server", "FilmLibrary\Server\FilmLibrary.Server.csproj", "{1968E822-2A55-4E90-90D1-E46E72A308C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmLibrary.Server", "FilmLibrary\Server\FilmLibrary.Server.csproj", "{1968E822-2A55-4E90-90D1-E46E72A308C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmLibrary.Client", "FilmLibrary\Client\FilmLibrary.Client.csproj", "{FBD1A470-4D4C-4302-8C1D-0E85B3B543B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmLibrary.Client", "FilmLibrary\Client\FilmLibrary.Client.csproj", "{FBD1A470-4D4C-4302-8C1D-0E85B3B543B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilmLibrary.Shared", "FilmLibrary\Shared\FilmLibrary.Shared.csproj", "{879CCA56-6AD2-4821-BA01-6B32EE8E3009}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FilmLibrary.Shared", "FilmLibrary\Shared\FilmLibrary.Shared.csproj", "{879CCA56-6AD2-4821-BA01-6B32EE8E3009}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
