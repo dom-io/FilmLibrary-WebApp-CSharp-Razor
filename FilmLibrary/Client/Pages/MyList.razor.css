@@ -1,0 +1,12 @@
+﻿.poster {
+    width: 100px;
+    height: 130px;
+}
+
+.title, .director, .year {
+    font-size: 2rem;
+}
+
+th, td {
+    padding: 1rem;
+}

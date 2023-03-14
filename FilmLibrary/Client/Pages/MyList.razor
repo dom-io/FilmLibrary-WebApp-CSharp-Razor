@@ -2,8 +2,49 @@
 
 <h1>My List</h1>
 
+<EditForm Model="movie" OnValidSubmit="AddMovie">
+    <DataAnnotationsValidator></DataAnnotationsValidator>
+    <div class="form-group">
+        <label for="title">Title</label>
+        <InputText id="title" @bind-Value="movie.Title" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="director">Director</label>
+        <InputText id="director" @bind-Value="movie.Director" class="form-control"></InputText>
+    </div>
+    <div class="form-group">
+        <label for="releaseYear">Release Year</label>
+        <InputNumber id="releaseYear" @bind-Value="movie.ReleaseYear" class="form-control"></InputNumber>
+
+    </div>
+</EditForm>
+<div>Movie: @movie.Title // Director: @movie.Director // Release Year: @movie.ReleaseYear</div>
+
+ <table>
+        <thead>
+            <tr>
+                <th>Poster</th>
+                <th>Title</th>
+                <th>Director</th>
+                <th>Release Year</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><img class="poster" src="Posters/jaws.png" /></td>
+                <td class="title">@movie.Title</td>
+                <td class="director">@movie.Director</td>
+                <td class="year">@movie.ReleaseYear</td>
+            </tr>
+        </tbody>
+    </table>
 
 
 @code {
+    Movie movie = new Movie();
 
+    public void AddMovie()
+    {
+        
+    }
 }
