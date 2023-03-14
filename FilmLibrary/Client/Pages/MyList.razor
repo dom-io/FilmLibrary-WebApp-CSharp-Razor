@@ -15,9 +15,9 @@
     <div class="form-group">
         <label for="releaseYear">Release Year</label>
         <InputNumber id="releaseYear" @bind-Value="movie.ReleaseYear" class="form-control"></InputNumber>
-
     </div>
 </EditForm>
+
 <div>Movie: @movie.Title // Director: @movie.Director // Release Year: @movie.ReleaseYear</div>
 
  <table>
@@ -38,7 +38,6 @@
             </tr>
         </tbody>
     </table>
-
 
 @code {
     Movie movie = new Movie();
