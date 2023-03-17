@@ -10,10 +10,15 @@ namespace FilmLibrary.Shared
     public class Movie
     {
         [Required]
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
         [Required]
-        public string Director { get; set; }
+        public string Director { get; set; } = string.Empty;
         [Required]
-        public int ReleaseYear { get; set; }
+        public string ReleaseYear { get; set; } = string.Empty;
+
+        public int Id { get; set; }
+        public UserRegister? UserId { get; set; }
+        public int MovieId { get; set; }
+
     }
 }

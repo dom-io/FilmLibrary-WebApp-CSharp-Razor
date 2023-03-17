@@ -6,11 +6,6 @@
 <EditForm Model="user" OnValidSubmit="HandleRegistration">
     <DataAnnotationsValidator></DataAnnotationsValidator>
     <div class="form-group">
-        <label for="email" class="required">Email</label>
-        <InputText id="email" @bind-Value="user.Email" class="form-control"></InputText>
-        <ValidationMessage For="@(() => user.Email)" />
-    </div>
-    <div class="form-group">
         <label for="username">Username</label>
         <InputText id="username" @bind-Value="user.Username" class="form-control"></InputText>
         <ValidationMessage For="@(() => user.Username)" />
@@ -26,7 +21,7 @@
         <ValidationMessage For="@(() => user.ConfirmPassword)" />
     </div>
     <button type="submit" class="btn btn-primary">Register</button>
-    <div>Username: @user.Username // Password: @user.Password // Email: @user.Email</div>
+    <div>Username: @user.Username // Password: @user.Password // @user.Id</div>
 </EditForm>
 
 @code {

@@ -1,49 +1,52 @@
 ﻿@page "/mylist"
+@using FilmLibrary.Client.Services;
+@inject IMovieService MovieService
+@inject NavigationManager NavigationManager
 
 <h1>My List</h1>
 
-<EditForm Model="movie" OnValidSubmit="AddMovie">
-    <DataAnnotationsValidator></DataAnnotationsValidator>
-    <div class="form-group">
-        <label for="title">Title</label>
-        <InputText id="title" @bind-Value="movie.Title" class="form-control"></InputText>
-    </div>
-    <div class="form-group">
-        <label for="director">Director</label>
-        <InputText id="director" @bind-Value="movie.Director" class="form-control"></InputText>
-    </div>
-    <div class="form-group">
-        <label for="releaseYear">Release Year</label>
-        <InputNumber id="releaseYear" @bind-Value="movie.ReleaseYear" class="form-control"></InputNumber>
-    </div>
-</EditForm>
 
-<div>Movie: @movie.Title // Director: @movie.Director // Release Year: @movie.ReleaseYear</div>
 
- <table>
+ <table class="table">
         <thead>
             <tr>
-                <th>Poster</th>
+                <th></th>
                 <th>Title</th>
                 <th>Director</th>
                 <th>Release Year</th>
             </tr>
         </thead>
         <tbody>
+        @foreach (var movie in MovieService.Movies)
+        {
             <tr>
                 <td><img class="poster" src="Posters/jaws.png" /></td>
                 <td class="title">@movie.Title</td>
                 <td class="director">@movie.Director</td>
                 <td class="year">@movie.ReleaseYear</td>
+                <td>@movie.UserId</td>
+                <td>
+                    <button class="btn btn-primary" @onclick="(() => ShowMovie(movie.Id))"><i class="oi oi-pencil"></i></button>
+                </td>
             </tr>
+        }
         </tbody>
     </table>
+    <button class="btn btn-primary" @onclick="CreateNewMovie">Add New Movie</button>
 
 @code {
-    Movie movie = new Movie();
-
-    public void AddMovie()
+    protected async Task OnIntializedAsync()
     {
-        
+        await MovieService.GetMovies();
+    }
+
+    void ShowMovie(int id)
+    {
+        NavigationManager.NavigateTo($"movie/{id}");
+    }
+
+    void CreateNewMovie()
+    {
+        NavigationManager.NavigateTo("/movie");
     }
 }
