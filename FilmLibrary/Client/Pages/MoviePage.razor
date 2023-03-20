@@ -46,18 +46,18 @@ else
         await MovieService.GetMovies();
     }
 
-    //protected override async Task OnParametersSetAsync()
-    //{
-    //    if (Id == null)
-    //    {
-    //        movie.UserId = MovieService.Users[0];
-    //        movie.MovieId = movie.UserId.Id;
-    //    }
-    //    else
-    //    {
-    //        movie = await MovieService.GetSingleMovie((int)Id);
-    //    }
-    //}
+    protected override async Task OnParametersSetAsync()
+    {
+        if (Id == null)
+        {
+            movie.UserId = MovieService.Users[0];
+            movie.MovieId = movie.UserId.Id;
+        }
+        else
+        {
+            movie = await MovieService.GetSingleMovie((int)Id);
+        }
+    }
 
     async Task AddNewMovie()
     {

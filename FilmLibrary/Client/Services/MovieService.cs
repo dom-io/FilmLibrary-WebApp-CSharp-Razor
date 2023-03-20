@@ -26,7 +26,7 @@ namespace FilmLibrary.Client.Services.MovieService
         private async Task SetMovies(HttpResponseMessage result)
         {
             var response = await result.Content.ReadFromJsonAsync<List<Movie>>();
-            Movies = response;
+            Movies = response; 
             _navigationManager.NavigateTo("mylist");
         }
 
