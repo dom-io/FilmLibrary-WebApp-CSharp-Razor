@@ -5,6 +5,17 @@ using Microsoft.AspNetCore.ResponseCompression;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:13576")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+        });
+});
+
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
@@ -33,6 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseCors();
 
 app.MapRazorPages();
 app.MapControllers();

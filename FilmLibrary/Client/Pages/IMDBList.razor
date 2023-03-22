@@ -1,7 +1,49 @@
 ﻿@page "/imdblist"
+@using FilmLibrary.Client.Services;
+@inject ScrapeService ScrapeService
+
+<PageTitle>IMDB List</PageTitle>
+
 
 <h1>IMDB List</h1>
 
-@code {
+<p>Here you can scroll through the current Top 250 movies on IMDB and add them to your personal list!</p>
 
+@if (scrapeList == null)
+{
+            <p><em>Loading...</em></p>
+}
+else
+{
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+            @foreach (var data in scrapeList)
+            {
+                    <tr>
+                        <td><button type="button" class="btn btn-primary" @onclick="addToList">Add</button></td>
+                        <td>@data.ToString()</td>
+                    </tr>
+            }
+                </tbody>
+            </table>
+}
+
+@code {
+    public List<string> scrapeList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        scrapeList = await ScrapeService.StartScrape();
+    }
+
+    void addToList()
+    {
+
+    }
 }
