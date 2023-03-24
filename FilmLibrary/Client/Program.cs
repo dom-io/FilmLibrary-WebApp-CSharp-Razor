@@ -1,4 +1,3 @@
-global using FilmLibrary.Client.Services.MovieService;
 global using FilmLibrary.Shared;
 using FilmLibrary.Client;
 using FilmLibrary.Client.Services;
@@ -10,7 +9,6 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
-builder.Services.AddScoped<IMovieService, MovieService>();
 
 builder.Services.AddSingleton<ScrapeService>();
 

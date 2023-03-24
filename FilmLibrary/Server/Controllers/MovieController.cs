@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FilmLibrary.Server.Data;
+using Microsoft.AspNetCore.Mvc;
 
 namespace FilmLibrary.Server.Controllers
 {
@@ -6,105 +7,50 @@ namespace FilmLibrary.Server.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
-        private readonly DataContext _context;
+        private readonly ApplicationDBContext _context;
 
-        public MovieController(DataContext context)
+        public MovieController(ApplicationDBContext context)
         {
-            _context = context;
+           _context = context;
         }
 
-        public static List<UserRegister> users = new List<UserRegister>
-        {
-            new UserRegister { Id = 1, Username = "Dom", Password = "123456" },
-            new UserRegister { Id = 2, Username = "John", Password = "1234567" }
-        };
-
-        public static List<Movie> movies = new List<Movie> {
-                new Movie
-                {
-                    Id = 1,
-                    Title = "Jaws",
-                    Director = "Steven Spielberg",
-                    ReleaseYear = "1975",
-                },
-
-                new Movie
-                {
-                    Id = 2,
-                    Title = "Aliens",
-                    Director = "James Cameron",
-                    ReleaseYear = "1986",
-                },
-            };
-
         [HttpGet]
-        public async Task<ActionResult<List<Movie>>> GetMovies()
+        public async Task<IActionResult> Get()
         {
-            var movies = await _context.Movies.ToListAsync();
-            return Ok(movies);
+            var movs = await _context.Movies.ToListAsync();
+            return Ok(movs);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Movie>> GetsingleMovie(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            var movie = await _context.Movies
-                .Include(m => m.UserId)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (movie == null)
-            {
-                return NotFound("Sorry, no movie here.");
-            }
-            return Ok(movie);
+            var mov = await _context.Movies.FirstOrDefaultAsync(a => a.Id == id);
+            return Ok(mov);
         }
 
         [HttpPost]
-        public async Task<ActionResult<List<Movie>>> CreateMovie(Movie movie)
+        public async Task<IActionResult> Post(Movie movie)
         {
-            movie.UserId = null;
-            _context.Movies.Add(movie);
+            _context.Add(movie);
             await _context.SaveChangesAsync();
-
-            return Ok(await GetDbMovies());
+            return Ok(movie.Id);
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult<List<Movie>>> UpdateMovie(Movie movie, int id)
+        [HttpPut]
+        public async Task<IActionResult> Put(Movie movie)
         {
-            var dbMovie = await _context.Movies
-                .Include(mv => mv.UserId)
-                .FirstOrDefaultAsync(mv => mv.Id == id);
-            if (dbMovie == null)
-                return NotFound("Sorry, no movie for you.");
-
-            dbMovie.Title = movie.Title;
-            dbMovie.Director = movie.Director;
-            dbMovie.ReleaseYear = movie.ReleaseYear;
-            dbMovie.Id = movie.MovieId;
-
+            _context.Entry(movie).State = EntityState.Modified;
             await _context.SaveChangesAsync();
-
-            return Ok(await GetDbMovies());
+            return NoContent();
         }
 
         [HttpDelete("{id}")]
-        public async Task<ActionResult<List<Movie>>> DeleteMovie(Movie movie, int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var dbMovie = await _context.Movies
-                .Include(mv => mv.UserId)
-                .FirstOrDefaultAsync(mv => mv.Id == id);
-            if (dbMovie == null)
-                return NotFound("Sorry, no movie for you.");
-
-            _context.Movies.Remove(dbMovie);
-
+            var mov = new Movie { Id = id };
+            _context.Remove(mov);
             await _context.SaveChangesAsync();
-
-            return Ok(await GetDbMovies());
-        }
-
-        private async Task<List<Movie>> GetDbMovies()
-        {
-            return await _context.Movies.Include(sh => sh.UserId).ToListAsync();
+            return NoContent();
         }
     }
 }

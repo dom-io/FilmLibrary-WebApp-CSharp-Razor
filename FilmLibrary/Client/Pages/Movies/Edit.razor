@@ -1,0 +1,22 @@
+﻿@page "/movies/edit/{movieId:int}"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+@inject IJSRuntime js
+
+<h3>Edit Movie</h3>
+<Form ButtonText="Update" mov="mov"
+      OnValidSubmit="@EditMovie" />
+@code {
+    [Parameter] public int movieId { get; set; }
+    Movie mov = new Movie();
+    protected async override Task OnParametersSetAsync()
+    {
+        mov = await http.GetFromJsonAsync<Movie>($"api/movie/{movieId}");
+    }
+    async Task EditMovie()
+    {
+        await http.PutAsJsonAsync("api/movie", mov);
+        await js.InvokeVoidAsync("alert", $"Updated Successfully!");
+        uriHelper.NavigateTo("mylist");
+    }
+}

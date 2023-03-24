@@ -1,0 +1,15 @@
+﻿@page "/movies/create"
+@inject HttpClient http
+@inject NavigationManager uriHelper
+<h3>Add New Movie</h3>
+<Form ButtonText="Add Movie" mov="@mov"
+            OnValidSubmit="@AddMovie" />
+@code {
+    Movie mov = new Movie();
+    async Task AddMovie()
+    {
+        // Adds new movie to the db
+        await http.PostAsJsonAsync("api/movie", mov);
+        uriHelper.NavigateTo("mylist");
+    }
+}

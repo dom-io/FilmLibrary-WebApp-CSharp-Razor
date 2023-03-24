@@ -1,0 +1,27 @@
+﻿<EditForm Model="@mov" OnValidSubmit="@OnValidSubmit">
+    <DataAnnotationsValidator />
+    <div class="form-group">
+        <label>Title:</label>
+        <div>
+            <InputText @bind-Value="@mov.Title" />
+            <ValidationMessage For="@(() => mov.Title)" />
+        </div>
+    </div>
+    <div class="form-group ">
+        <div>
+            <label>Release Year :</label>
+            <div>
+                <InputText @bind-Value="@mov.ReleaseYear" />
+                <ValidationMessage For="@(() => mov.ReleaseYear)" />
+            </div>
+        </div>
+    </div>
+    <button type="submit" class="btn btn-success">
+        @ButtonText
+    </button>
+</EditForm>
+@code {
+    [Parameter] public Movie mov { get; set; }
+    [Parameter] public string ButtonText { get; set; } = "Save";
+    [Parameter] public EventCallback OnValidSubmit { get; set; }
+}

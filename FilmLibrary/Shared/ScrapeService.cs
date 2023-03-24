@@ -7,7 +7,6 @@ namespace FilmLibrary.Client.Services
         public async Task<List<string>> StartScrape()
         {
             List<string> scrapeListTitles = new List<string>();
-            //List<string> scrapeListRatings = new List<string>();
 
             HttpClient hc = new HttpClient();
             HttpResponseMessage result = await hc.GetAsync($"https://www.imdb.com/chart/top/?ref_=nv_mv_250");
@@ -23,13 +22,7 @@ namespace FilmLibrary.Client.Services
                 scrapeListTitles.Add(titleName.InnerText);
             }
 
-            //foreach ( var rating in Ratings)
-            //{
-            //    scrapeListRatings.Add(rating.InnerText);
-            //}
-
             return scrapeListTitles;
-            // return scrapeListRatings;
         }
     }
 }

@@ -1,6 +1,9 @@
 ﻿@page "/imdblist"
 @using FilmLibrary.Client.Services;
+@using FilmLibrary.Shared;
 @inject ScrapeService ScrapeService
+@inject HttpClient http
+@inject NavigationManager uriHelper
 
 <PageTitle>IMDB List</PageTitle>
 
@@ -11,7 +14,11 @@
 
 @if (scrapeList == null)
 {
-            <p><em>Loading...</em></p>
+    <p><em>Loading...</em></p>
+}
+else if (scrapeList.Count == 0)
+{
+    <p>Current IMDB content could be loaded.</p>
 }
 else
 {
@@ -42,8 +49,13 @@ else
         scrapeList = await ScrapeService.StartScrape();
     }
 
-    void addToList()
+    Movie mov = new Movie();
+
+    async Task addToList()
     {
+        // Adds new movie to the db
+        await http.PostAsJsonAsync("api/movie", mov);
+        uriHelper.NavigateTo("mylist");
 
     }
 }

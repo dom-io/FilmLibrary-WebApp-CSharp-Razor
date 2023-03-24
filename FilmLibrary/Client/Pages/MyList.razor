@@ -1,52 +1,70 @@
 ﻿@page "/mylist"
-@using FilmLibrary.Client.Services;
-@inject IMovieService MovieService
-@inject NavigationManager NavigationManager
+@inject HttpClient client
+@inject IJSRuntime js
 
 <h1>My List</h1>
 
+<p>Here new movies can be added, edited, or deleted from the list!</p>
 
+@*Links to add new movie page*@
+<div class="form-group">
+    <a class="btn btn-success" href="movies/create"><i class="oi oi-plus"></i>Add New Movie</a>
+</div>
 
- <table class="table">
-        <thead>
-            <tr>
-                <th></th>
-                <th>Title</th>
-                <th>Director</th>
-                <th>Release Year</th>
-            </tr>
-        </thead>
-        <tbody>
-        @foreach (var movie in MovieService.Movies)
-        {
-            <tr>
-                <td><img class="poster" src="Posters/jaws.png" /></td>
-                <td class="title">@movie.Title</td>
-                <td class="director">@movie.Director</td>
-                <td class="year">@movie.ReleaseYear</td>
-                <td>@movie.UserId</td>
-                <td>
-                    <button class="btn btn-primary" @onclick="(() => ShowMovie(movie.Id))"><i class="oi oi-pencil"></i></button>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-    <button class="btn btn-primary" @onclick="CreateNewMovie">Add New Movie</button>
+<br />
 
+@if (movies == null)
+{
+    <text>Loading...</text>
+}
+else if (movies.Length == 0)
+{
+    <text>No Records Found.</text>
+}
+else
+{
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Release Year</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (Movie mov in movies)
+            {
+                        <tr>
+                            <td>@mov.Title</td>
+                            <td>@mov.ReleaseYear</td>
+                            <td><a class="btn btn-success" href="movies/edit/@mov.Id">Edit</a></td>
+                            <td>  
+                                <button class="btn btn-danger" @onclick="@(() => Delete(mov.Id))">Delete</button>
+                            </td>
+                        </tr>
+            }
+            </tbody>
+        </table>
+}
 @code {
-    protected async Task OnIntializedAsync()
+    // Defines a list of movies
+    Movie[] movies { get; set; }
+    // On page load uses HTTP client to retrieve data from API endpoint
+    protected override async Task OnInitializedAsync()
     {
-        await MovieService.GetMovies();
+        movies = await client.GetFromJsonAsync<Movie[]>("api/movie");
     }
-
-    void ShowMovie(int id)
+    async Task Delete(int movieId)
     {
-        NavigationManager.NavigateTo($"movie/{id}");
-    }
-
-    void CreateNewMovie()
-    {
-        NavigationManager.NavigateTo("/movie");
+        var mov = movies.First(x => x.Id == movieId);
+        if (await js.InvokeAsync<bool>("confirm", $"Do you want to delete {mov.Title}?"))
+        {
+            await client.DeleteAsync($"api/movie/{movieId}");
+            await OnInitializedAsync();
+        }
     }
 }
+
+
+
