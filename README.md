@@ -5,6 +5,7 @@ This project was made with the Blazor Framework and utilizes razor pages to disp
 
 
 The My List page displays all of the current entries in the SQL database. I introduced CRUD operations to this page so you can add, edit, and delete movies in the db. I developed a web API controller to use POST, GET, PUT, DELETE actions with the db.
+![Screenshot (189)](https://user-images.githubusercontent.com/111844962/227416352-8e024af6-9acd-47af-a821-3c9aea1cf201.png)
 
 ![Screenshot (191)](https://user-images.githubusercontent.com/111844962/227415375-8d9f991f-4c25-4ac0-84dc-90c511698bcf.png)
 ![Screenshot (192)](https://user-images.githubusercontent.com/111844962/227415383-716cd78a-76b7-4da3-a6b1-4020cde0e044.png)
